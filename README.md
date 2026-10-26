@@ -62,7 +62,13 @@ python -m unittest -v
 
 I used AI to help write the code and tests, then ran everything myself, read each rule and checked the sample results by hand. The rules follow common container hardening advice.
 
-## Limits
+## What I learned
+
+- A Dockerfile instruction can be split over many lines with a backslash, so the tool joins them first. Otherwise a risky command hidden on a second line would be missed.
+- In a multi-stage build only the last stage ships, so `USER` and `HEALTHCHECK` are judged on that stage. A build stage running as root is normal.
+- A security tool should never print the thing it found. The secret rule shows the variable name only, and one of my tests checks that the value never appears in the output.
+-
+- ## Limits
 
 - It reads the file only. It cannot see what is inside the base image or what the build really does.
 - `USER` and `HEALTHCHECK` are judged on the final stage of a multi-stage build, because that is the image that ships.
